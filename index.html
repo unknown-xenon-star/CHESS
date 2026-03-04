@@ -1,0 +1,102 @@
+<!DOCTYPE html>
+<html>
+<head>
+<title>Simple Chess</title>
+
+<style>
+body{
+    display:flex;
+    justify-content:center;
+    align-items:center;
+    height:100vh;
+    background:#222;
+}
+
+.board{
+    display:grid;
+    grid-template-columns: repeat(8,80px);
+    grid-template-rows: repeat(8,80px);
+    border:4px solid black;
+}
+
+.square{
+    width:80px;
+    height:80px;
+    display:flex;
+    justify-content:center;
+    align-items:center;
+    font-size:40px;
+    cursor:pointer;
+}
+
+.white{ background:#f0d9b5; }
+.black{ background:#b58863; }
+
+.selected{
+    outline:4px solid red;
+}
+</style>
+</head>
+
+<body>
+
+<div class="board" id="board"></div>
+
+<script>
+
+const pieces = [
+    ["♜","♞","♝","♛","♚","♝","♞","♜"],
+    ["♟","♟","♟","♟","♟","♟","♟","♟"],
+    ["","","","","","","",""],
+    ["","","","","","","",""],
+    ["","","","","","","",""],
+    ["","","","","","","",""],
+    ["♙","♙","♙","♙","♙","♙","♙","♙"],
+    ["♖","♘","♗","♕","♔","♗","♘","♖"]
+]
+
+const board = document.getElementById("board")
+let selected = null
+
+for(let r=0;r<8;r++){
+    for(let c=0;c<8;c++){
+
+        const square = document.createElement("div")
+
+        square.className =
+        "square " + ((r+c)%2==0 ? "white":"black")
+
+        square.dataset.row=r
+        square.dataset.col=c
+
+        square.textContent = pieces[r][c]
+
+        square.onclick = () => {
+
+            if(selected){
+
+                square.textContent =
+                selected.textContent
+
+                selected.textContent = ""
+                selected.classList.remove("selected")
+                selected=null
+
+            }else if(square.textContent!=""){
+
+                selected = square
+                square.classList.add("selected")
+
+            }
+
+        }
+
+        board.appendChild(square)
+
+    }
+}
+
+</script>
+
+</body>
+</html>
